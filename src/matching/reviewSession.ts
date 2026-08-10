@@ -19,6 +19,8 @@ export interface SubjectProgress {
 
 export interface SubmitResult {
   grade: Grade;
+  /** The subject that was just graded (for reinforcement / item info). */
+  subject: Subject;
   /** Accepted answers to show the user when they got it wrong. */
   acceptedAnswers: string[];
   /** True once every question for this subject has been answered correctly. */
@@ -94,7 +96,7 @@ export class ReviewSession {
         : checkReading(p.subject, input);
 
     if (grade.verdict === "nudge") {
-      return { grade, acceptedAnswers: this.acceptedFor(p, card.kind), subjectComplete: false };
+      return { grade, subject: p.subject, acceptedAnswers: this.acceptedFor(p, card.kind), subjectComplete: false };
     }
 
     // Consume the card.
@@ -109,6 +111,7 @@ export class ReviewSession {
 
     return {
       grade,
+      subject: p.subject,
       acceptedAnswers: this.acceptedFor(p, card.kind),
       subjectComplete: p.pending.size === 0,
     };

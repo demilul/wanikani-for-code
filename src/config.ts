@@ -6,9 +6,10 @@ const TOKEN_KEY = "wanikani.apiToken";
 export function getConfig() {
   const cfg = vscode.workspace.getConfiguration("wanikani");
   return {
-    practiceMode: cfg.get<boolean>("practiceMode", true),
+    practiceMode: cfg.get<boolean>("practiceMode", false),
     refreshIntervalMinutes: cfg.get<number>("refreshInterval", 15),
     notifyOnDue: cfg.get<boolean>("notifyOnDue", true),
+    lessonBatchSize: cfg.get<number>("lessonBatchSize", 5),
   };
 }
 

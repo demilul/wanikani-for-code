@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.2.0] - Unreleased
+
+The full daily study loop.
+
+### Added
+- **Native lessons**: learn radicals/kanji/vocabulary in-editor — a teaching pass
+  (characters, readings, mnemonics) then a quiz, then `PUT /assignments/<id>/start`
+  for the batch. Ordered radical → kanji → vocab by level. `wanikani.lessonBatchSize`
+  controls batch size (default 5).
+- **Review reinforcement**: meanings, readings, and mnemonics shown after each
+  answer — auto-revealed on a wrong answer, `I` to peek on a correct one.
+- WaniKani mnemonic markup (`<radical>`, `<kanji>`, `<reading>`, …) rendered as
+  styled highlights.
+
+### Changed
+- **Practice mode now defaults to off** — reviews and lessons submit to your real
+  SRS by default. Turn `wanikani.practiceMode` on to drill without writing.
+- Unified the review and lesson flows into a single `StudyPanel` (was `ReviewPanel`).
+
 ## [0.1.0] - Unreleased
 
 Initial vertical slice.

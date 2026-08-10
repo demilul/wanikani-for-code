@@ -2,7 +2,7 @@
   "name": "wanikani-for-code",
   "displayName": "WaniKani for Code",
   "description": "Do your WaniKani reviews and lessons without leaving VS Code.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "demilul",
   "license": "Apache-2.0",
   "engines": {
@@ -114,8 +114,15 @@
       "properties": {
         "wanikani.practiceMode": {
           "type": "boolean",
-          "default": true,
-          "markdownDescription": "When enabled, reviews run the full experience but are **not** submitted to WaniKani — nothing is written to your real SRS. Turn this off once you trust the answer matching to submit reviews for real."
+          "default": false,
+          "markdownDescription": "When enabled, reviews and lessons run the full experience but are **not** submitted to WaniKani — nothing is written to your real SRS. Leave this **off** for normal studying; turn it on when you want to drill without affecting your progress."
+        },
+        "wanikani.lessonBatchSize": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 30,
+          "description": "How many lessons to teach and quiz per session."
         },
         "wanikani.refreshInterval": {
           "type": "number",

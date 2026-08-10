@@ -96,6 +96,55 @@ body {
   font-size: 14px;
 }
 
+kbd {
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 0.85em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--vscode-widget-border, rgba(128,128,128,0.4));
+  background: var(--vscode-keybindingLabel-background, rgba(128,128,128,0.17));
+}
+
+/* Teaching cards (lessons) */
+.card.teach { text-align: left; }
+.card.teach .characters { text-align: center; }
+.card.teach .prompt { text-align: center; }
+
+.info {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--vscode-widget-border, rgba(128,128,128,0.25));
+  text-align: left;
+}
+.info-row { display: flex; gap: 12px; margin-bottom: 8px; align-items: baseline; }
+.info-label {
+  flex: 0 0 72px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+.info-value { font-size: 18px; }
+
+.mnem-label {
+  margin-top: 14px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+.mnem-body { font-size: 14px; line-height: 1.6; }
+
+/* Inline mnemonic highlight tags */
+.mnem { padding: 0 3px; border-radius: 3px; font-weight: 600; }
+.mnem-radical { background: color-mix(in srgb, var(--wk-radical) 35%, transparent); }
+.mnem-kanji { background: color-mix(in srgb, var(--wk-kanji) 35%, transparent); }
+.mnem-vocabulary { background: color-mix(in srgb, var(--wk-vocab) 35%, transparent); }
+.mnem-reading { background: color-mix(in srgb, #444 40%, transparent); }
+.mnem-meaning { background: color-mix(in srgb, #444 40%, transparent); }
+.mnem-ja { font-weight: 400; opacity: 0.9; }
+
 .summary { text-align: center; padding-top: 24px; }
 .summary h1 { font-size: 22px; }
 .summary .submit-note { opacity: 0.8; }

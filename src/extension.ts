@@ -2,10 +2,10 @@ import * as vscode from "vscode";
 import { WaniKaniClient, WaniKaniError } from "./api/wanikaniClient";
 import { SubjectStore } from "./cache/subjectStore";
 import { getConfig, promptForToken, TokenStore } from "./config";
-import { ReviewPanel } from "./ui/reviewPanel";
+import { StudyPanel, type StudyItem } from "./ui/studyPanel";
 import { StatusBar } from "./ui/statusBar";
 import { DashboardTree } from "./ui/treeView";
-import type { Summary } from "./types";
+import type { Assignment, Subject, Summary, SubjectType } from "./types";
 
 export function activate(context: vscode.ExtensionContext): void {
   const tokens = new TokenStore(context.secrets);
@@ -109,31 +109,32 @@ export function activate(context: vscode.ExtensionContext): void {
         async (progress) => {
           progress.report({ message: "Loading review queue…" });
           await subjects.sync(progress);
-          const assignments = await client.getReviewAssignments();
-          const items = assignments
-            .map((a) => ({ assignmentId: a.id, subject: subjects.get(a.subject_id) }))
-            .filter((x): x is { assignmentId: number; subject: NonNullable<typeof x.subject> } => !!x.subject);
-
+          const items = buildItems(await client.getReviewAssignments(), subjects);
           if (items.length === 0) {
             vscode.window.showInformationMessage("WaniKani: no reviews available right now. 🎉");
             return;
           }
-          const { practiceMode } = getConfig();
-          ReviewPanel.show(context, client, items, practiceMode, () => void refresh(false));
+          StudyPanel.show(context, client, "review", items, getConfig().practiceMode, () => void refresh(false));
         },
       );
     }),
 
     vscode.commands.registerCommand("wanikani.startLessons", async () => {
       if (!(await ensureReady())) return;
-      // v1: native lesson UI is deferred — hand off to WaniKani's lesson session.
-      const pick = await vscode.window.showInformationMessage(
-        "Native lessons are coming in a later release. Open your lessons on WaniKani for now?",
-        "Open WaniKani Lessons",
+      await vscode.window.withProgress(
+        { location: vscode.ProgressLocation.Notification, title: "WaniKani" },
+        async (progress) => {
+          progress.report({ message: "Loading lessons…" });
+          await subjects.sync(progress);
+          const all = buildItems(await client.getLessonAssignments(), subjects);
+          if (all.length === 0) {
+            vscode.window.showInformationMessage("WaniKani: no lessons available right now.");
+            return;
+          }
+          const batch = sortLessons(all).slice(0, Math.max(1, getConfig().lessonBatchSize));
+          StudyPanel.show(context, client, "lesson", batch, getConfig().practiceMode, () => void refresh(false));
+        },
       );
-      if (pick) {
-        await vscode.env.openExternal(vscode.Uri.parse("https://www.wanikani.com/subjects/lesson"));
-      }
     }),
   );
 
@@ -151,4 +152,25 @@ export function activate(context: vscode.ExtensionContext): void {
 
 export function deactivate(): void {
   // Disposables handle teardown.
+}
+
+/** Map assignments to study items, dropping any whose subject isn't cached yet. */
+function buildItems(assignments: Assignment[], store: SubjectStore): StudyItem[] {
+  const items: StudyItem[] = [];
+  for (const a of assignments) {
+    const subject = store.get(a.subject_id);
+    if (subject) items.push({ assignmentId: a.id, subject });
+  }
+  return items;
+}
+
+const TYPE_ORDER: Record<SubjectType, number> = { radical: 0, kanji: 1, vocabulary: 2, kana_vocabulary: 3 };
+
+/** Teach lessons in WaniKani's natural order: by level, then radical → kanji → vocab. */
+function sortLessons(items: StudyItem[]): StudyItem[] {
+  return [...items].sort((a, b) => {
+    const s = a.subject as Subject;
+    const t = b.subject as Subject;
+    return s.level - t.level || TYPE_ORDER[s.type] - TYPE_ORDER[t.type];
+  });
 }

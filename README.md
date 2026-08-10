@@ -4,7 +4,7 @@ Do your [WaniKani](https://www.wanikani.com/) reviews and lessons without leavin
 
 Most WaniKani tooling stops at "show me my counts." This extension goes further: it runs an actual **review session** inside an editor webview — typed answers, live romaji→kana input, close-enough answer matching — and (when you're ready) submits the results straight to your real SRS.
 
-> **Status:** v0.1 — a thin but complete vertical slice. Reviews are fully playable; lessons currently hand off to wanikani.com while the native lesson UI is built.
+> **Status:** v0.2 — the full daily study loop. Native lessons and reviews both run in-editor and submit to your real account.
 
 ## Features
 
@@ -15,7 +15,9 @@ Most WaniKani tooling stops at "show me my counts." This extension goes further:
   - "close-enough" meaning matching with typo tolerance, like real WaniKani
   - a nudge when you type the reading where a meaning was expected
   - you keep seeing a subject until you get both parts right
-- **Practice mode (on by default):** run the whole review experience without writing anything to WaniKani — dogfood the matcher against your real queue with zero risk to your SRS. Flip it off to submit for real.
+  - **reinforcement**: meanings, readings, and mnemonics appear after each answer (auto-shown when you're wrong, `I` to peek when you're right)
+- **Native lessons**: learn new radicals, kanji, and vocabulary in-editor — a teaching pass (characters, readings, mnemonics) followed by a quiz, then the batch is started on WaniKani. Batch size is configurable.
+- **Live by default**: reviews and lessons submit to your real SRS. Prefer to drill without consequences? Flip on **practice mode** and nothing is written.
 - **Due-review notifications** while you work.
 
 ## Getting started
@@ -36,14 +38,15 @@ The first launch downloads the subject catalogue once (~9 requests) so reviews g
 | `WaniKani: Clear API Token` | Remove the stored token |
 | `WaniKani: Show Dashboard` | Reveal the activity-bar view |
 | `WaniKani: Start Reviews` | Open the review session |
-| `WaniKani: Start Lessons` | Open your lessons (hands off to WaniKani for now) |
+| `WaniKani: Start Lessons` | Learn and quiz a batch of new items in-editor |
 | `WaniKani: Refresh` | Re-fetch summary and counts |
 
 ## Settings
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `wanikani.practiceMode` | `true` | Run reviews without submitting them to WaniKani |
+| `wanikani.practiceMode` | `false` | Run reviews/lessons without submitting them to WaniKani |
+| `wanikani.lessonBatchSize` | `5` | How many lessons to teach and quiz per session |
 | `wanikani.refreshInterval` | `15` | Minutes between background refreshes |
 | `wanikani.notifyOnDue` | `true` | Notify when new reviews become available |
 
@@ -64,13 +67,12 @@ npm run watch      # esbuild in watch mode (extension + webview bundles)
 - `src/api/wanikaniClient.ts` — REST wrapper with pagination + 429 backoff (60 req/min)
 - `src/cache/subjectStore.ts` — full subject cache in global storage, incremental via `updated_after`
 - `src/matching/answerChecker.ts` — close-enough meaning matching, exact readings, nudges
-- `src/matching/reviewSession.ts` — the review queue/SRS-tally state machine (host-side, testable)
-- `src/ui/reviewPanel.ts` + `src/webview/review.ts` — the review webview host and its client script
+- `src/matching/reviewSession.ts` — the review/quiz queue + SRS-tally state machine (host-side, testable)
+- `src/ui/studyPanel.ts` + `src/webview/review.ts` — the study webview host (reviews and lessons) and its client script
 
 ## Roadmap
 
-- Native lesson webview (mnemonics, teaching flow)
-- Audio playback
+- Reading audio playback and context sentences
 - WaniKani-parity answer matching (auxiliary/warning edge cases)
 - Offline / resume for interrupted sessions
 - Combined WaniKani + [Bunpro](https://bunpro.jp/) view
