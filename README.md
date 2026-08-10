@@ -6,6 +6,21 @@ Most WaniKani tooling stops at "show me my counts." This extension goes further:
 
 > **Status:** v0.2 — the full daily study loop. Native lessons and reviews both run in-editor and submit to your real account.
 
+## Screenshots
+
+![Reviewing a kanji next to the WaniKani dashboard in VS Code](https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/hero.png)
+
+<table>
+  <tr>
+    <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/review-reading.png" alt="Reading review with romaji-to-kana input" /></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/review-correct.png" alt="A correct answer with reinforcement hints" /></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Romaji→kana input on readings</em></td>
+    <td align="center"><em>Instant grading with reinforcement</em></td>
+  </tr>
+</table>
+
 ## Features
 
 - **Status bar** at a glance: `蟹 24 Reviews · 3 Lessons · Next 23:00`
