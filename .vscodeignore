@@ -1,9 +1,24 @@
-.vscode/**
+# Source & build tooling (only dist/ + media/ runtime assets ship)
 src/**
-node_modules/**
+tests/**
+scripts/**
 esbuild.js
 tsconfig.json
-.gitignore
+dist/test.cjs
 **/*.map
 **/*.ts
+
+# Editor / repo / local tooling
+.vscode/**
 .github/**
+.gitignore
+.vscodeignore
+.claude-flow/**
+.remember/**
+
+# Docs & screenshots (README references images by absolute URL, no need to ship them)
+docs/**
+
+# Artifacts
+*.vsix
+node_modules/**

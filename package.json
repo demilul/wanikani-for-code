@@ -27,6 +27,7 @@
     "url": "https://github.com/demilul/wanikani-for-code/issues"
   },
   "homepage": "https://github.com/demilul/wanikani-for-code#readme",
+  "icon": "media/icon.png",
   "main": "./dist/extension.js",
   "activationEvents": [
     "onStartupFinished"
