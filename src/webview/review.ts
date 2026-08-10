@@ -47,7 +47,6 @@ type InboundMsg = ConfigMsg | TeachMsg | QuestionMsg | ResultMsg | DoneMsg;
 const stage = document.getElementById("stage") as HTMLDivElement;
 const banner = document.getElementById("banner") as HTMLDivElement;
 
-let mode: "review" | "lesson" = "review";
 let practiceMode = false;
 let awaitingAdvance = false;
 let infoOpen = false;
@@ -253,8 +252,9 @@ function renderBanner(): void {
     banner.textContent = "PRACTICE MODE — nothing is submitted";
     banner.className = "practice";
   } else {
-    banner.textContent = mode === "lesson" ? "LIVE — lessons will start on your account" : "LIVE — reviews count toward your SRS";
-    banner.className = "live";
+    // Live is the default; no banner needed.
+    banner.textContent = "";
+    banner.className = "";
   }
 }
 
@@ -272,7 +272,6 @@ window.addEventListener("message", (event: MessageEvent<InboundMsg>) => {
   const msg = event.data;
   switch (msg.type) {
     case "config":
-      mode = msg.mode;
       practiceMode = msg.practiceMode;
       renderBanner();
       break;

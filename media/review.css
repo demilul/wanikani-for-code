@@ -20,13 +20,12 @@ body {
   letter-spacing: 0.06em;
   padding: 6px;
 }
+#banner:empty {
+  display: none;
+}
 #banner.practice {
   background: rgba(255, 200, 0, 0.15);
   color: var(--vscode-editorWarning-foreground, #d7a000);
-}
-#banner.live {
-  background: rgba(255, 68, 68, 0.15);
-  color: var(--wk-incorrect);
 }
 
 #stage {
