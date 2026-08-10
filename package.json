@@ -1,0 +1,152 @@
+{
+  "name": "wanikani-for-code",
+  "displayName": "WaniKani for Code",
+  "description": "Do your WaniKani reviews and lessons without leaving VS Code.",
+  "version": "0.1.0",
+  "publisher": "demilul",
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Education",
+    "Other"
+  ],
+  "keywords": [
+    "wanikani",
+    "japanese",
+    "kanji",
+    "srs",
+    "language learning"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/demilul/wanikani-for-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/demilul/wanikani-for-code/issues"
+  },
+  "homepage": "https://github.com/demilul/wanikani-for-code#readme",
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "wanikani.setToken",
+        "title": "Set API Token",
+        "category": "WaniKani"
+      },
+      {
+        "command": "wanikani.clearToken",
+        "title": "Clear API Token",
+        "category": "WaniKani"
+      },
+      {
+        "command": "wanikani.showDashboard",
+        "title": "Show Dashboard",
+        "category": "WaniKani"
+      },
+      {
+        "command": "wanikani.startReviews",
+        "title": "Start Reviews",
+        "category": "WaniKani",
+        "icon": "$(play)"
+      },
+      {
+        "command": "wanikani.startLessons",
+        "title": "Start Lessons",
+        "category": "WaniKani",
+        "icon": "$(mortar-board)"
+      },
+      {
+        "command": "wanikani.refresh",
+        "title": "Refresh",
+        "category": "WaniKani",
+        "icon": "$(refresh)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "wanikani",
+          "title": "WaniKani",
+          "icon": "media/activitybar.svg"
+        }
+      ]
+    },
+    "views": {
+      "wanikani": [
+        {
+          "id": "wanikani.dashboard",
+          "name": "Dashboard"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "wanikani.dashboard",
+        "contents": "Connect your WaniKani account to see your reviews and lessons.\n[Set API Token](command:wanikani.setToken)\n\nYour token is stored securely in VS Code's SecretStorage and is never written to disk in plain text."
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "wanikani.startReviews",
+          "when": "view == wanikani.dashboard",
+          "group": "navigation@1"
+        },
+        {
+          "command": "wanikani.startLessons",
+          "when": "view == wanikani.dashboard",
+          "group": "navigation@2"
+        },
+        {
+          "command": "wanikani.refresh",
+          "when": "view == wanikani.dashboard",
+          "group": "navigation@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "WaniKani",
+      "properties": {
+        "wanikani.practiceMode": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "When enabled, reviews run the full experience but are **not** submitted to WaniKani — nothing is written to your real SRS. Turn this off once you trust the answer matching to submit reviews for real."
+        },
+        "wanikani.refreshInterval": {
+          "type": "number",
+          "default": 15,
+          "minimum": 1,
+          "markdownDescription": "How often (in minutes) to poll WaniKani for new reviews and lessons."
+        },
+        "wanikani.notifyOnDue": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a notification when new reviews become available."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "compile": "tsc --noEmit",
+    "test": "esbuild tests/matcher.test.ts --bundle --platform=node --format=cjs --outfile=dist/test.cjs && node dist/test.cjs",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.23.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "wanakana": "^5.3.1"
+  }
+}

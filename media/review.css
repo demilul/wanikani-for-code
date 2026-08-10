@@ -1,0 +1,116 @@
+:root {
+  --wk-radical: #00a1f1;
+  --wk-kanji: #f100a1;
+  --wk-vocab: #a100f1;
+  --wk-correct: #88cc00;
+  --wk-incorrect: #ff4444;
+}
+
+body {
+  font-family: var(--vscode-font-family);
+  color: var(--vscode-foreground);
+  margin: 0;
+  padding: 0;
+}
+
+#banner {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 6px;
+}
+#banner.practice {
+  background: rgba(255, 200, 0, 0.15);
+  color: var(--vscode-editorWarning-foreground, #d7a000);
+}
+#banner.live {
+  background: rgba(255, 68, 68, 0.15);
+  color: var(--wk-incorrect);
+}
+
+#stage {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.progress {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.card {
+  border-radius: 10px;
+  padding: 32px 20px;
+  text-align: center;
+  transition: background 0.15s ease;
+}
+.card.radical { background: color-mix(in srgb, var(--wk-radical) 22%, transparent); }
+.card.kanji { background: color-mix(in srgb, var(--wk-kanji) 22%, transparent); }
+.card.vocabulary,
+.card.kana_vocabulary { background: color-mix(in srgb, var(--wk-vocab) 22%, transparent); }
+
+.characters {
+  font-size: 72px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.prompt {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+.answer {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 24px;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 2px solid var(--vscode-input-border, transparent);
+  background: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  outline: none;
+}
+.answer:focus { border-color: var(--vscode-focusBorder); }
+
+.card.correct .answer { border-color: var(--wk-correct); background: color-mix(in srgb, var(--wk-correct) 25%, var(--vscode-input-background)); }
+.card.incorrect .answer { border-color: var(--wk-incorrect); background: color-mix(in srgb, var(--wk-incorrect) 25%, var(--vscode-input-background)); }
+.card.nudge .answer { animation: shake 0.3s; border-color: var(--vscode-editorWarning-foreground, #d7a000); }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.feedback {
+  min-height: 20px;
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+.summary { text-align: center; padding-top: 24px; }
+.summary h1 { font-size: 22px; }
+.summary .submit-note { opacity: 0.8; }
+.summary h2 { font-size: 15px; margin-top: 28px; opacity: 0.9; }
+.missed { list-style: none; padding: 0; text-align: center; }
+.missed li { padding: 4px 0; font-size: 15px; }
+
+.close-btn {
+  margin-top: 28px;
+  padding: 8px 24px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+}
+.close-btn:hover { background: var(--vscode-button-hoverBackground); }

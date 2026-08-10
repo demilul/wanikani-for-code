@@ -1,0 +1,10 @@
+node_modules/
+dist/
+media/review.js
+media/review.js.map
+*.vsix
+.DS_Store
+
+# Local tooling / session state (not part of the extension)
+.claude-flow/
+.remember/
