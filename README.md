@@ -1,13 +1,15 @@
-# WaniKani for Code
+# WaniCode
 
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/demilul.wanikani-for-code?label=Marketplace)](https://marketplace.visualstudio.com/items?itemName=demilul.wanikani-for-code)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/demilul.wanikani-for-code)](https://marketplace.visualstudio.com/items?itemName=demilul.wanikani-for-code)
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/demilul.wanikani-for-code)](https://marketplace.visualstudio.com/items?itemName=demilul.wanikani-for-code)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
+> **Unofficial.** WaniCode is an independent project. It is not affiliated with, endorsed by, or sponsored by Tofugu or WaniKani. It talks to the public [WaniKani API v2](https://docs.api.wanikani.com/) with a token you provide. "WaniKani" is a trademark of its respective owner.
+
 Do your [WaniKani](https://www.wanikani.com/) reviews and lessons without leaving VS Code.
 
-Other WaniKani extensions stop at showing your review counts. This one runs the actual reviews and lessons in an editor panel: typed answers, live romaji to kana input, WaniKani style answer matching, and real SRS submission.
+Other WaniKani companions stop at showing your review counts. WaniCode runs the actual reviews and lessons in an editor panel: typed answers, live romaji to kana input, WaniKani style answer matching, and real SRS submission.
 
 ![Reviewing a kanji next to the WaniKani dashboard in VS Code](https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/hero.png)
 
@@ -44,8 +46,8 @@ Other WaniKani extensions stop at showing your review counts. This one runs the 
 ## Getting started
 
 1. Install the extension from the Marketplace, or press `F5` in this repo to launch an Extension Development Host.
-2. Run **WaniKani: Set API Token** and paste a token from [wanikani.com, Settings, API Tokens](https://www.wanikani.com/settings/personal_access_tokens).
-3. Open the **WaniKani** view in the activity bar, or run **WaniKani: Start Reviews**.
+2. Run **WaniCode: Set API Token** and paste a token from [wanikani.com, Settings, API Tokens](https://www.wanikani.com/settings/personal_access_tokens).
+3. Open the **WaniCode** view in the activity bar, or run **WaniCode: Start Reviews**.
 
 On first launch the extension downloads the subject catalogue once (about nine requests). After that, reviews grade instantly and work offline.
 
@@ -53,12 +55,12 @@ On first launch the extension downloads the subject catalogue once (about nine r
 
 | Command | Description |
 | --- | --- |
-| `WaniKani: Set API Token` | Store your personal access token securely |
-| `WaniKani: Clear API Token` | Remove the stored token |
-| `WaniKani: Show Dashboard` | Reveal the activity bar view |
-| `WaniKani: Start Reviews` | Open the review session |
-| `WaniKani: Start Lessons` | Learn and quiz a batch of new items |
-| `WaniKani: Refresh` | Re-fetch the summary and counts |
+| `WaniCode: Set API Token` | Store your personal access token securely |
+| `WaniCode: Clear API Token` | Remove the stored token |
+| `WaniCode: Show Dashboard` | Reveal the activity bar view |
+| `WaniCode: Start Reviews` | Open the review session |
+| `WaniCode: Start Lessons` | Learn and quiz a batch of new items |
+| `WaniCode: Refresh` | Re-fetch the summary and counts |
 
 ## Settings
 
