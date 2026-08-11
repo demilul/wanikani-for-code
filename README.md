@@ -1,8 +1,6 @@
 # WaniCode
 
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/demilul.wanikani-for-code?label=Marketplace)](https://marketplace.visualstudio.com/items?itemName=demilul.wanikani-for-code)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/demilul.wanikani-for-code)](https://marketplace.visualstudio.com/items?itemName=demilul.wanikani-for-code)
-[![Rating](https://img.shields.io/visual-studio-marketplace/r/demilul.wanikani-for-code)](https://marketplace.visualstudio.com/items?itemName=demilul.wanikani-for-code)
+[![Visual Studio Marketplace](https://img.shields.io/badge/Visual%20Studio%20Marketplace-WaniCode-0098FF?logo=visualstudiocode&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=demilul.wanikani-for-code)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 > **Unofficial.** WaniCode is an independent project. It is not affiliated with, endorsed by, or sponsored by Tofugu or WaniKani. It talks to the public [WaniKani API v2](https://docs.api.wanikani.com/) with a token you provide. "WaniKani" is a trademark of its respective owner.
