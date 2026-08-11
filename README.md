@@ -24,6 +24,17 @@ Other WaniKani companions stop at showing your review counts. WaniCode runs the 
 
 <table>
   <tr>
+    <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/dashboard-panel.png" alt="The full WaniCode dashboard panel in a light theme" /></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/dashboard-panel-dark.png" alt="The full WaniCode dashboard panel in a dark theme" /></td>
+  </tr>
+  <tr>
+    <td align="center"><em>The full dashboard: reviews, lessons, level progress, item spread, 24 hour forecast, and recent activity</em></td>
+    <td align="center"><em>At home in light and dark themes</em></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
     <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/dashboard.png" alt="Activity bar dashboard listing reviews, lessons, next review, and SRS distribution" /></td>
     <td width="50%" valign="middle"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/status-bar.png" alt="Status bar summary of reviews, lessons, and next review time" /></td>
   </tr>
@@ -37,6 +48,7 @@ Other WaniKani companions stop at showing your review counts. WaniCode runs the 
 
 - **Status bar summary.** Reviews, lessons, and the next review time at a glance: `蟹 24 Reviews · 3 Lessons · Next 23:00`.
 - **Activity bar dashboard.** Open reviews, available lessons, next review, and your SRS distribution.
+- **Full dashboard panel.** A WaniKani style dashboard in the editor, built from the API: reviews available now, a 24 hour forecast, today's lessons, level up progress, an item spread by SRS stage and type, and recently unlocked, burned, and critical condition items. Open it from the "Open Dashboard" row in the WaniCode sidebar, the dashboard icon in the view title, or the `WaniCode: Open Dashboard` command.
 - **Native reviews.** A full review session in an editor panel:
   - romaji to kana input on reading questions, via [WanaKana](https://github.com/WaniKani/WanaKana)
   - close enough meaning matching with typo tolerance, like the real site

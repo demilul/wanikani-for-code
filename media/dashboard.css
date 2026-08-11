@@ -130,11 +130,11 @@ body {
 
 /* SRS spread table */
 .spread-wrap { width: 100%; max-width: 100%; overflow-x: auto; }
-.spread { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
-.spread th, .spread td { padding: 5px 6px; overflow: hidden; text-overflow: ellipsis; }
+.spread { width: 100%; border-collapse: collapse; font-size: 13px; }
+.spread th, .spread td { padding: 5px 6px; white-space: nowrap; }
 .spread th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.6; }
-.spread .col-stage { text-align: left; width: 32%; white-space: nowrap; }
-.spread .col-num { text-align: right; font-variant-numeric: tabular-nums; width: 17%; }
+.spread .col-stage { text-align: left; }
+.spread .col-num { text-align: right; font-variant-numeric: tabular-nums; }
 .spread tbody tr { border-top: 1px solid var(--vscode-widget-border, rgba(128, 128, 128, 0.15)); }
 .spread tfoot tr { border-top: 2px solid var(--vscode-widget-border, rgba(128, 128, 128, 0.3)); font-weight: 600; }
 .spread .total { font-weight: 600; }
