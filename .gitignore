@@ -6,6 +6,8 @@ dist/
 out/
 media/review.js
 media/review.js.map
+media/dashboard.js
+media/dashboard.js.map
 *.tsbuildinfo
 
 # Packaged extension

@@ -6,6 +6,7 @@ type Node = {
   description?: string;
   icon?: string;
   command?: vscode.Command;
+  tooltip?: string;
   children?: Node[];
 };
 
@@ -38,6 +39,7 @@ export class DashboardTree implements vscode.TreeDataProvider<Node> {
     );
     item.description = node.description;
     item.command = node.command;
+    item.tooltip = node.tooltip;
     if (node.icon) item.iconPath = new vscode.ThemeIcon(node.icon);
     return item;
   }
@@ -55,6 +57,12 @@ export class DashboardTree implements vscode.TreeDataProvider<Node> {
       .reduce((n, s) => n + s.subject_ids.length, 0);
 
     const nodes: Node[] = [
+      {
+        label: "Open Dashboard",
+        icon: "dashboard",
+        tooltip: "Open the full WaniCode dashboard",
+        command: { command: "wanikani.openDashboard", title: "Open Dashboard" },
+      },
       {
         label: "Reviews",
         description: `${reviews} available`,

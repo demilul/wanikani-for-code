@@ -5,6 +5,7 @@ import { getConfig, promptForToken, TokenStore } from "./config";
 import { StudyPanel, type StudyItem } from "./ui/studyPanel";
 import { StatusBar } from "./ui/statusBar";
 import { DashboardTree } from "./ui/treeView";
+import { DashboardPanel } from "./ui/dashboardPanel";
 import type { Assignment, Subject, Summary, SubjectType } from "./types";
 
 export function activate(context: vscode.ExtensionContext): void {
@@ -40,6 +41,7 @@ export function activate(context: vscode.ExtensionContext): void {
       const summary = await client.getSummary();
       statusBar.render(summary);
       tree.update(summary);
+      void DashboardPanel.current?.reload();
 
       // Best-effort background enrichment (subjects cache + SRS distribution).
       void subjects.sync().catch(() => undefined);
@@ -100,6 +102,11 @@ export function activate(context: vscode.ExtensionContext): void {
 
     vscode.commands.registerCommand("wanikani.showDashboard", async () => {
       await vscode.commands.executeCommand("workbench.view.extension.wanikani");
+    }),
+
+    vscode.commands.registerCommand("wanikani.openDashboard", async () => {
+      if (!(await ensureReady())) return;
+      DashboardPanel.show(context, client, subjects);
     }),
 
     vscode.commands.registerCommand("wanikani.startReviews", async () => {

@@ -47,6 +47,35 @@ export interface Assignment {
   subject_id: number;
   subject_type: SubjectType;
   srs_stage: number;
+  // Lifecycle timestamps WaniKani returns as ISO strings, or null until the
+  // assignment reaches that stage. `available_at` is null once burned.
+  unlocked_at: string | null;
+  started_at: string | null;
+  passed_at: string | null;
+  burned_at: string | null;
+  available_at: string | null;
+  resurrected_at: string | null;
+}
+
+/**
+ * Per-subject review accuracy totals. Radicals have no readings, so WaniKani
+ * reports 0 for the reading counters on radical statistics.
+ */
+export interface ReviewStatistic {
+  id: number;
+  subject_id: number;
+  subject_type: SubjectType;
+  meaning_correct: number;
+  meaning_incorrect: number;
+  reading_correct: number;
+  reading_incorrect: number;
+  percentage_correct: number;
+}
+
+/** Minimal current-user profile fields we surface on the dashboard. */
+export interface User {
+  level: number;
+  username: string;
 }
 
 /** Which parts of a review question a subject requires. Radicals: meaning only. */

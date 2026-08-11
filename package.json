@@ -2,7 +2,7 @@
   "name": "wanikani-for-code",
   "displayName": "WaniCode",
   "description": "Unofficial WaniKani client for VS Code. Do your reviews and lessons in the editor. Not affiliated with WaniKani or Tofugu.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publisher": "demilul",
   "license": "Apache-2.0",
   "engines": {
@@ -50,6 +50,12 @@
         "category": "WaniCode"
       },
       {
+        "command": "wanikani.openDashboard",
+        "title": "Open Dashboard",
+        "category": "WaniCode",
+        "icon": "$(dashboard)"
+      },
+      {
         "command": "wanikani.startReviews",
         "title": "Start Reviews",
         "category": "WaniCode",
@@ -93,6 +99,11 @@
     ],
     "menus": {
       "view/title": [
+        {
+          "command": "wanikani.openDashboard",
+          "when": "view == wanikani.dashboard",
+          "group": "navigation@0"
+        },
         {
           "command": "wanikani.startReviews",
           "when": "view == wanikani.dashboard",
@@ -157,7 +168,7 @@
     "build": "node esbuild.js --production",
     "watch": "node esbuild.js --watch",
     "compile": "tsc --noEmit",
-    "test": "esbuild tests/matcher.test.ts --bundle --platform=node --format=cjs --outfile=dist/test.cjs && node dist/test.cjs",
+    "test": "esbuild tests/matcher.test.ts --bundle --platform=node --format=cjs --outfile=dist/test.cjs && node dist/test.cjs && esbuild tests/aggregate.test.ts --bundle --platform=node --format=cjs --outfile=dist/test-aggregate.cjs && node dist/test-aggregate.cjs",
     "package": "vsce package"
   },
   "devDependencies": {

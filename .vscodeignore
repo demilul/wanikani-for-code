@@ -5,6 +5,7 @@ scripts/**
 esbuild.js
 tsconfig.json
 dist/test.cjs
+dist/test-aggregate.cjs
 **/*.map
 **/*.ts
 
