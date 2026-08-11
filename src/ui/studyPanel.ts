@@ -63,7 +63,7 @@ export class StudyPanel {
     private readonly onFinished: () => void,
   ) {
     this.session = new ReviewSession(items);
-    const title = kind === "lesson" ? "WaniKani Lessons" : "WaniKani Reviews";
+    const title = kind === "lesson" ? "WaniCode Lessons" : "WaniCode Reviews";
     this.panel = vscode.window.createWebviewPanel("wanikani.study", title, vscode.ViewColumn.Active, {
       enableScripts: true,
       retainContextWhenHidden: true,

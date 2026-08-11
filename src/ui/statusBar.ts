@@ -8,24 +8,24 @@ export class StatusBar implements vscode.Disposable {
   constructor() {
     this.item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     this.item.command = "wanikani.showDashboard";
-    this.item.name = "WaniKani";
+    this.item.name = "WaniCode";
   }
 
   showNeedsToken(): void {
-    this.item.text = "$(crab) WaniKani: set token";
+    this.item.text = "$(mortar-board) WaniCode: set token";
     this.item.tooltip = "Click to configure your WaniKani API token";
     this.item.command = "wanikani.setToken";
     this.item.show();
   }
 
   showLoading(): void {
-    this.item.text = "$(sync~spin) WaniKani";
-    this.item.tooltip = "Refreshing WaniKani…";
+    this.item.text = "$(sync~spin) WaniCode";
+    this.item.tooltip = "Refreshing from WaniKani…";
     this.item.show();
   }
 
   showError(message: string): void {
-    this.item.text = "$(warning) WaniKani";
+    this.item.text = "$(warning) WaniCode";
     this.item.tooltip = message;
     this.item.command = "wanikani.refresh";
     this.item.show();
@@ -40,7 +40,7 @@ export class StatusBar implements vscode.Disposable {
 
     this.item.text = parts.join(" · ");
     this.item.tooltip = new vscode.MarkdownString(
-      `**WaniKani**\n\n- ${reviews} reviews available\n- ${lessons} lessons available\n\nClick to open the dashboard.`,
+      `**WaniCode**\n\n- ${reviews} reviews available\n- ${lessons} lessons available\n\nClick to open the dashboard.`,
     );
     this.item.command = "wanikani.showDashboard";
     this.item.show();

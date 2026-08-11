@@ -1,7 +1,7 @@
 {
   "name": "wanikani-for-code",
-  "displayName": "WaniKani for Code",
-  "description": "Do your WaniKani reviews and lessons without leaving VS Code.",
+  "displayName": "WaniCode",
+  "description": "Unofficial WaniKani client for VS Code. Do your reviews and lessons in the editor. Not affiliated with WaniKani or Tofugu.",
   "version": "0.2.0",
   "publisher": "demilul",
   "license": "Apache-2.0",
@@ -37,34 +37,34 @@
       {
         "command": "wanikani.setToken",
         "title": "Set API Token",
-        "category": "WaniKani"
+        "category": "WaniCode"
       },
       {
         "command": "wanikani.clearToken",
         "title": "Clear API Token",
-        "category": "WaniKani"
+        "category": "WaniCode"
       },
       {
         "command": "wanikani.showDashboard",
         "title": "Show Dashboard",
-        "category": "WaniKani"
+        "category": "WaniCode"
       },
       {
         "command": "wanikani.startReviews",
         "title": "Start Reviews",
-        "category": "WaniKani",
+        "category": "WaniCode",
         "icon": "$(play)"
       },
       {
         "command": "wanikani.startLessons",
         "title": "Start Lessons",
-        "category": "WaniKani",
+        "category": "WaniCode",
         "icon": "$(mortar-board)"
       },
       {
         "command": "wanikani.refresh",
         "title": "Refresh",
-        "category": "WaniKani",
+        "category": "WaniCode",
         "icon": "$(refresh)"
       }
     ],
@@ -72,7 +72,7 @@
       "activitybar": [
         {
           "id": "wanikani",
-          "title": "WaniKani",
+          "title": "WaniCode",
           "icon": "media/activitybar.svg"
         }
       ]
@@ -111,12 +111,12 @@
       ]
     },
     "configuration": {
-      "title": "WaniKani",
+      "title": "WaniCode",
       "properties": {
         "wanikani.practiceMode": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "When enabled, reviews and lessons run the full experience but are **not** submitted to WaniKani — nothing is written to your real SRS. Leave this **off** for normal studying; turn it on when you want to drill without affecting your progress."
+          "markdownDescription": "When enabled, reviews and lessons run the full experience but are **not** submitted to WaniKani, so nothing is written to your real SRS. Leave this **off** for normal studying; turn it on when you want to drill without affecting your progress."
         },
         "wanikani.lessonBatchSize": {
           "type": "number",

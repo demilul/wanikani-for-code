@@ -1,21 +1,21 @@
 name: Publish Extension
 
-# Publishes to the VS Marketplace when you push a version tag (e.g. v0.2.1).
-# Auth is tokenless: GitHub OIDC -> Entra federated credential -> vsce.
+# On a version tag (e.g. v0.2.0): build, package, publish to the VS Marketplace
+# (tokenless via GitHub OIDC -> Entra federation), and create a GitHub Release
+# with the VSIX attached.
 on:
   push:
     tags:
       - "v*"
 
 permissions:
-  contents: read
-  id-token: write # required to request the GitHub OIDC token
+  id-token: write # request the GitHub OIDC token for Azure federation
+  contents: write # create the GitHub Release
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    # The federated credential is scoped to this environment; the job only runs
-    # (and only gets Azure access) when executed in the "release" environment.
+    # The federated credential is scoped to this environment.
     environment: release
     steps:
       - uses: actions/checkout@v4
@@ -27,12 +27,13 @@ jobs:
 
       - run: npm ci
 
-      # Gate the publish on a green build + tests.
+      # Gate the release on a green build + tests.
       - run: npm run compile
       - run: npm test
 
-      # Tokenless Azure sign-in via GitHub OIDC. No subscription needed —
-      # the identity is only authorized in the Marketplace publisher.
+      - name: Package VSIX
+        run: npx --yes @vscode/vsce package
+
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
@@ -40,6 +41,11 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      # Publishes the version currently in package.json using the Azure identity.
       - name: Publish to VS Marketplace
-        run: npx --yes @vscode/vsce publish --azure-credential
+        run: npx --yes @vscode/vsce publish --packagePath *.vsix --azure-credential
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: "*.vsix"
