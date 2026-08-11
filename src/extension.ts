@@ -14,11 +14,16 @@ export function activate(context: vscode.ExtensionContext): void {
   const subjects = new SubjectStore(context, client);
   const statusBar = new StatusBar();
   const tree = new DashboardTree();
+  const treeView = vscode.window.createTreeView("wanikani.dashboard", { treeDataProvider: tree });
 
-  context.subscriptions.push(
-    statusBar,
-    vscode.window.registerTreeDataProvider("wanikani.dashboard", tree),
-  );
+  context.subscriptions.push(statusBar, treeView);
+
+  const setBadge = (available: number): void => {
+    treeView.badge =
+      available > 0
+        ? { value: available, tooltip: `${available} review${available === 1 ? "" : "s"} available` }
+        : undefined;
+  };
 
   let lastAvailableReviews = 0;
   let refreshTimer: NodeJS.Timeout | undefined;
@@ -34,6 +39,7 @@ export function activate(context: vscode.ExtensionContext): void {
     if (!(await tokens.has())) {
       statusBar.showNeedsToken();
       tree.update(null);
+      setBadge(0);
       return;
     }
     statusBar.showLoading();
@@ -51,6 +57,7 @@ export function activate(context: vscode.ExtensionContext): void {
         .catch(() => undefined);
 
       const available = countAvailableReviews(summary);
+      setBadge(available);
       if (getConfig().notifyOnDue && available > lastAvailableReviews && lastAvailableReviews > 0) {
         const pick = await vscode.window.showInformationMessage(
           `WaniKani: ${available} reviews available.`,
@@ -95,6 +102,7 @@ export function activate(context: vscode.ExtensionContext): void {
       await tokens.clear();
       statusBar.showNeedsToken();
       tree.update(null);
+      setBadge(0);
       vscode.window.showInformationMessage("WaniKani token cleared.");
     }),
 
