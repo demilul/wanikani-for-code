@@ -1,0 +1,45 @@
+name: Publish Extension
+
+# Publishes to the VS Marketplace when you push a version tag (e.g. v0.2.1).
+# Auth is tokenless: GitHub OIDC -> Entra federated credential -> vsce.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write # required to request the GitHub OIDC token
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # The federated credential is scoped to this environment; the job only runs
+    # (and only gets Azure access) when executed in the "release" environment.
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Gate the publish on a green build + tests.
+      - run: npm run compile
+      - run: npm test
+
+      # Tokenless Azure sign-in via GitHub OIDC. No subscription needed —
+      # the identity is only authorized in the Marketplace publisher.
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      # Publishes the version currently in package.json using the Azure identity.
+      - name: Publish to VS Marketplace
+        run: npx --yes @vscode/vsce publish --azure-credential
