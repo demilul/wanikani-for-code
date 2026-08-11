@@ -26,3 +26,4 @@ Thumbs.db
 # Local tooling / session state (not part of the extension)
 .claude-flow/
 .remember/
+.claude/settings.local.json
