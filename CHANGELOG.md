@@ -2,6 +2,19 @@
 
 All notable changes to WaniCode are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-08-11
+
+### Added
+
+- A WaniKani style dashboard in an editor panel, built entirely from the WaniKani API. Open it from the new "Open Dashboard" row at the top of the WaniCode sidebar, the dashboard icon in the view title bar, or the "WaniCode: Open Dashboard" command. It gathers seven at a glance widgets:
+  - Reviews available now and a 24 hour review forecast.
+  - Today's lessons.
+  - Item spread: a matrix of SRS stage (Apprentice, Guru, Master, Enlightened, Burned) against item type (radical, kanji, vocabulary).
+  - Level up progress, including how many more kanji you still need to Guru to advance a level.
+  - Recently unlocked and recently burned items from the last 30 days.
+  - Critical condition items: subjects below 75 percent accuracy that could use extra study.
+- Start Reviews, Start Lessons, and Refresh actions on the dashboard, which tracks the extension's existing background refresh.
+
 ## [0.3.0] - 2026-08-11
 
 ### Added

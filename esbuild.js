@@ -33,16 +33,34 @@ const webviewConfig = {
   logLevel: "info",
 };
 
+/** @type {import('esbuild').BuildOptions} */
+const dashboardConfig = {
+  entryPoints: ["src/webview/dashboard.ts"],
+  bundle: true,
+  format: "iife",
+  platform: "browser",
+  target: "es2020",
+  outfile: "media/dashboard.js",
+  sourcemap: !production,
+  minify: production,
+  logLevel: "info",
+};
+
 async function main() {
   if (watch) {
     const ctxs = await Promise.all([
       esbuild.context(extensionConfig),
       esbuild.context(webviewConfig),
+      esbuild.context(dashboardConfig),
     ]);
     await Promise.all(ctxs.map((c) => c.watch()));
     console.log("[esbuild] watching...");
   } else {
-    await Promise.all([esbuild.build(extensionConfig), esbuild.build(webviewConfig)]);
+    await Promise.all([
+      esbuild.build(extensionConfig),
+      esbuild.build(webviewConfig),
+      esbuild.build(dashboardConfig),
+    ]);
   }
 }
 

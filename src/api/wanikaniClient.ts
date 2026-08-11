@@ -1,4 +1,4 @@
-import type { Assignment, Subject, Summary } from "../types";
+import type { Assignment, ReviewStatistic, Subject, Summary, User } from "../types";
 
 const BASE = "https://api.wanikani.com/v2";
 const REVISION = "20170710";
@@ -86,6 +86,12 @@ export class WaniKaniClient {
     return res.data;
   }
 
+  /** The authenticated user's profile (level drives the dashboard's level view). */
+  async getUser(): Promise<User> {
+    const res = await this.request<Resource<User>>("/user");
+    return { level: res.data.level, username: res.data.username };
+  }
+
   /** Assignments immediately available for review right now. */
   async getReviewAssignments(): Promise<Assignment[]> {
     const res = await this.collectAll<Assignment>("/assignments?immediately_available_for_review");
@@ -122,6 +128,13 @@ export class WaniKaniClient {
     });
   }
 
+  /** Every non-hidden assignment, paginated. Drives the dashboard's item spread,
+   * level progress and recent-activity views. */
+  async getAllAssignments(): Promise<Assignment[]> {
+    const res = await this.collectAll<Assignment>("/assignments?hidden=false");
+    return res.map((r) => ({ ...r.data, id: r.id }));
+  }
+
   /** Count started, non-hidden assignments by SRS stage, for the distribution view. */
   async getSrsDistribution(): Promise<Map<number, number>> {
     const res = await this.collectAll<Assignment>("/assignments?started=true&hidden=false");
@@ -131,6 +144,20 @@ export class WaniKaniClient {
       dist.set(stage, (dist.get(stage) ?? 0) + 1);
     }
     return dist;
+  }
+
+  /**
+   * All review statistics, paginated. Radicals carry no readings, so their
+   * reading counters are normalised to 0 to keep every record uniform.
+   */
+  async getReviewStatistics(): Promise<ReviewStatistic[]> {
+    const res = await this.collectAll<ReviewStatistic>("/review_statistics");
+    return res.map((r) => ({
+      ...r.data,
+      id: r.id,
+      reading_correct: r.data.reading_correct ?? 0,
+      reading_incorrect: r.data.reading_incorrect ?? 0,
+    }));
   }
 
   /** Submit a completed review. Advances the real SRS server-side. */
