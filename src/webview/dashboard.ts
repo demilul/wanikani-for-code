@@ -150,7 +150,9 @@ function renderSpread(vm: DashboardViewModel): HTMLElement {
   tfoot.appendChild(ft);
   table.appendChild(tfoot);
 
-  c.body.appendChild(table);
+  const wrap = el("div", "spread-wrap");
+  wrap.appendChild(table);
+  c.body.appendChild(wrap);
   return c.root;
 }
 

@@ -2,6 +2,12 @@
 
 All notable changes to WaniCode are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.4.1] - 2026-08-11
+
+### Fixed
+
+- Dashboard "Item spread" table no longer overflows its card. On narrow side panels the table sized to its content and spilled the Total column out over the neighbouring card; it now uses a fixed column layout that always fits inside the card, with horizontal scroll as a fallback on very narrow widths.
+
 ## [0.4.0] - 2026-08-11
 
 ### Added
