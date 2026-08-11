@@ -107,11 +107,19 @@ export class WaniKaniClient {
       ? `/subjects?updated_after=${encodeURIComponent(updatedAfter)}`
       : "/subjects";
     const res = await this.collectAll<Omit<Subject, "id" | "type">>(path);
-    return res.map((r) => ({
-      ...(r.data as Omit<Subject, "id" | "type">),
-      id: r.id,
-      type: (r.object as Subject["type"]),
-    }));
+    return res.map((r) => {
+      const data = r.data as Omit<Subject, "id" | "type">;
+      return {
+        ...data,
+        id: r.id,
+        type: r.object as Subject["type"],
+        // Radicals omit `readings` entirely; keep collections as arrays so every
+        // consumer can treat a Subject uniformly.
+        meanings: data.meanings ?? [],
+        auxiliary_meanings: data.auxiliary_meanings ?? [],
+        readings: data.readings ?? [],
+      };
+    });
   }
 
   /** Count started, non-hidden assignments by SRS stage, for the distribution view. */

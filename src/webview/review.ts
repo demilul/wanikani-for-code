@@ -41,6 +41,8 @@ interface DoneMsg {
     practiceMode: boolean;
     items: { characters: string; incorrectMeaning: number; incorrectReading: number }[];
   };
+  hasMore?: boolean;
+  nextCount?: number;
 }
 type InboundMsg = ConfigMsg | TeachMsg | QuestionMsg | ResultMsg | DoneMsg;
 
@@ -216,7 +218,9 @@ function renderResult(r: ResultMsg): void {
   }
 }
 
-function renderDone(kind: "review" | "lesson", d: DoneMsg["summary"]): void {
+function renderDone(msg: DoneMsg): void {
+  const kind = msg.kind;
+  const d = msg.summary;
   stage.innerHTML = "";
   banner.textContent = "";
   const box = el("div", "summary");
@@ -241,7 +245,14 @@ function renderDone(kind: "review" | "lesson", d: DoneMsg["summary"]): void {
     box.appendChild(list);
   }
 
-  const close = el("button", "close-btn", "Close");
+  if (msg.hasMore) {
+    const n = msg.nextCount ?? 0;
+    const next = el("button", "next-btn", `Start next ${n} lesson${n === 1 ? "" : "s"}`);
+    next.addEventListener("click", () => vscode.postMessage({ type: "nextBatch" }));
+    box.appendChild(next);
+  }
+
+  const close = el("button", msg.hasMore ? "close-btn secondary" : "close-btn", msg.hasMore ? "Done for now" : "Close");
   close.addEventListener("click", () => vscode.postMessage({ type: "close" }));
   box.appendChild(close);
   stage.appendChild(box);
@@ -285,7 +296,7 @@ window.addEventListener("message", (event: MessageEvent<InboundMsg>) => {
       renderResult(msg);
       break;
     case "done":
-      renderDone(msg.kind, msg.summary);
+      renderDone(msg);
       break;
   }
 });

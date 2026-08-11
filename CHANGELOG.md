@@ -2,6 +2,18 @@
 
 All notable changes to WaniCode are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-08-11
+
+### Added
+
+- Continue lessons in batches. After finishing a batch you can start the next batch of `wanikani.lessonBatchSize` straight from the completion screen, the way WaniKani gates lessons. Nothing advances without your confirmation.
+- `wanikani.lessonOrder` setting for how lessons are drawn from the available pool: `shuffled` (default, like WaniKani) or `level` (ascending level, then radical to kanji to vocabulary).
+- README screenshots of the activity bar dashboard and the status bar summary.
+
+### Fixed
+
+- Lessons no longer open to a blank panel. Radical subjects omit the `readings` field in the WaniKani API, which threw while building the teaching card; reading data is now treated as optional everywhere it is read.
+
 ## [0.2.1] - 2026-08-11
 
 ### Changed
