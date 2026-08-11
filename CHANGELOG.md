@@ -2,6 +2,12 @@
 
 All notable changes to WaniCode are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.5.0] - 2026-08-11
+
+### Added
+
+- The WaniCode activity bar icon now shows a badge with the number of reviews available right now, so you can see when reviews are waiting without opening the sidebar. It tracks the same count as the "Reviews" row and updates on the background refresh; it clears when nothing is due and when no token is set.
+
 ## [0.4.2] - 2026-08-11
 
 ### Fixed
