@@ -10,7 +10,7 @@ export interface StudyItem {
 export type StudyKind = "review" | "lesson";
 
 interface HostMessage {
-  type: "ready" | "teachNext" | "answer" | "advance" | "close";
+  type: "ready" | "teachNext" | "answer" | "advance" | "nextBatch" | "close";
   value?: string;
   readingCandidate?: string;
 }
@@ -35,7 +35,10 @@ export class StudyPanel {
   private static current: StudyPanel | undefined;
   private readonly panel: vscode.WebviewPanel;
   private readonly disposables: vscode.Disposable[] = [];
-  private readonly session: ReviewSession;
+  private session!: ReviewSession;
+  /** The slice of `items` being studied right now (one lesson batch, or all reviews). */
+  private batch: StudyItem[] = [];
+  private batchStart = 0;
   private teachIndex = 0;
   private finished = false;
 
@@ -46,12 +49,13 @@ export class StudyPanel {
     items: StudyItem[],
     practiceMode: boolean,
     onFinished: () => void,
+    batchSize: number,
   ): void {
     if (StudyPanel.current) {
       StudyPanel.current.panel.reveal();
       return;
     }
-    StudyPanel.current = new StudyPanel(context, client, kind, items, practiceMode, onFinished);
+    StudyPanel.current = new StudyPanel(context, client, kind, items, practiceMode, onFinished, batchSize);
   }
 
   private constructor(
@@ -61,8 +65,9 @@ export class StudyPanel {
     private readonly items: StudyItem[],
     private readonly practiceMode: boolean,
     private readonly onFinished: () => void,
+    private readonly batchSize: number,
   ) {
-    this.session = new ReviewSession(items);
+    this.startBatch();
     const title = kind === "lesson" ? "WaniCode Lessons" : "WaniCode Reviews";
     this.panel = vscode.window.createWebviewPanel("wanikani.study", title, vscode.ViewColumn.Active, {
       enableScripts: true,
@@ -74,23 +79,30 @@ export class StudyPanel {
     this.panel.webview.onDidReceiveMessage((m: HostMessage) => this.onMessage(m), null, this.disposables);
   }
 
+  /** Load the next `batchSize` items into a fresh session and reset per-batch state. */
+  private startBatch(): void {
+    this.batch = this.items.slice(this.batchStart, this.batchStart + this.batchSize);
+    this.session = new ReviewSession(this.batch);
+    this.teachIndex = 0;
+    this.finished = false;
+  }
+
   private async onMessage(msg: HostMessage): Promise<void> {
     switch (msg.type) {
       case "ready":
-        this.post({
-          type: "config",
-          mode: this.kind,
-          practiceMode: this.practiceMode,
-          total: this.session.totalSubjects,
-        });
-        if (this.kind === "lesson" && this.items.length > 0) this.sendTeach(0);
-        else this.sendQuestion();
+        this.sendBatchStart();
         break;
 
       case "teachNext":
         this.teachIndex++;
-        if (this.teachIndex < this.items.length) this.sendTeach(this.teachIndex);
+        if (this.teachIndex < this.batch.length) this.sendTeach(this.teachIndex);
         else this.sendQuestion(); // teaching done -> start the quiz
+        break;
+
+      case "nextBatch":
+        this.batchStart += this.batch.length;
+        this.startBatch();
+        this.sendBatchStart();
         break;
 
       case "answer": {
@@ -116,12 +128,24 @@ export class StudyPanel {
     }
   }
 
+  /** Kick off the current batch: configure the webview, then teach (lessons) or quiz (reviews). */
+  private sendBatchStart(): void {
+    this.post({
+      type: "config",
+      mode: this.kind,
+      practiceMode: this.practiceMode,
+      total: this.session.totalSubjects,
+    });
+    if (this.kind === "lesson" && this.batch.length > 0) this.sendTeach(0);
+    else this.sendQuestion();
+  }
+
   private sendTeach(index: number): void {
-    const item = this.items[index];
+    const item = this.batch[index];
     this.post({
       type: "teach",
       index,
-      total: this.items.length,
+      total: this.batch.length,
       info: this.buildInfo(item.subject),
     });
   }
@@ -147,8 +171,9 @@ export class StudyPanel {
     return {
       characters: subject.characters ?? subject.slug,
       subjectType: subject.type,
-      meanings: subject.meanings.filter((m) => m.accepted_answer).map((m) => m.meaning),
-      readings: subject.readings
+      meanings: (subject.meanings ?? []).filter((m) => m.accepted_answer).map((m) => m.meaning),
+      // Radicals have no `readings` field in the API, so guard against undefined.
+      readings: (subject.readings ?? [])
         .filter((r) => r.accepted_answer)
         .map((r) => ({ reading: r.reading, type: r.type, primary: r.primary })),
       meaningMnemonic: subject.meaning_mnemonic,
@@ -173,8 +198,8 @@ export class StudyPanel {
               submitted++;
             }
           } else {
-            // A lesson is "learned" once its quiz is passed; start every item.
-            for (const item of this.items) {
+            // A lesson is "learned" once its quiz is passed; start every item in the batch.
+            for (const item of this.batch) {
               await this.client.startAssignment(item.assignmentId);
               submitted++;
             }
@@ -183,7 +208,18 @@ export class StudyPanel {
       );
     }
 
-    this.post({ type: "done", kind: this.kind, summary: this.session.buildSummary(this.practiceMode, submitted) });
+    // Are there more lessons queued beyond the batch just finished?
+    const consumed = this.batchStart + this.batch.length;
+    const hasMore = this.kind === "lesson" && consumed < this.items.length;
+    const nextCount = hasMore ? Math.min(this.batchSize, this.items.length - consumed) : 0;
+
+    this.post({
+      type: "done",
+      kind: this.kind,
+      summary: this.session.buildSummary(this.practiceMode, submitted),
+      hasMore,
+      nextCount,
+    });
     this.onFinished();
   }
 

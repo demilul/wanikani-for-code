@@ -22,6 +22,17 @@ Other WaniKani companions stop at showing your review counts. WaniCode runs the 
   </tr>
 </table>
 
+<table>
+  <tr>
+    <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/dashboard.png" alt="Activity bar dashboard listing reviews, lessons, next review, and SRS distribution" /></td>
+    <td width="50%" valign="middle"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/status-bar.png" alt="Status bar summary of reviews, lessons, and next review time" /></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Activity bar dashboard with SRS distribution</em></td>
+    <td align="center"><em>Glanceable status bar summary</em></td>
+  </tr>
+</table>
+
 ## Features
 
 - **Status bar summary.** Reviews, lessons, and the next review time at a glance: `蟹 24 Reviews · 3 Lessons · Next 23:00`.

@@ -10,6 +10,7 @@ export function getConfig() {
     refreshIntervalMinutes: cfg.get<number>("refreshInterval", 15),
     notifyOnDue: cfg.get<boolean>("notifyOnDue", true),
     lessonBatchSize: cfg.get<number>("lessonBatchSize", 5),
+    lessonOrder: cfg.get<"shuffled" | "level">("lessonOrder", "shuffled"),
   };
 }
 

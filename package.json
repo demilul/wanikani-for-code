@@ -2,7 +2,7 @@
   "name": "wanikani-for-code",
   "displayName": "WaniCode",
   "description": "Unofficial WaniKani client for VS Code. Do your reviews and lessons in the editor. Not affiliated with WaniKani or Tofugu.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "publisher": "demilul",
   "license": "Apache-2.0",
   "engines": {
@@ -124,6 +124,19 @@
           "minimum": 1,
           "maximum": 30,
           "description": "How many lessons to teach and quiz per session."
+        },
+        "wanikani.lessonOrder": {
+          "type": "string",
+          "enum": [
+            "shuffled",
+            "level"
+          ],
+          "enumDescriptions": [
+            "Draw each batch at random from the pool of available lessons (WaniKani's default).",
+            "Take lessons in ascending level, then radical to kanji to vocabulary."
+          ],
+          "default": "shuffled",
+          "description": "How to pick which lessons to study next from the available pool."
         },
         "wanikani.refreshInterval": {
           "type": "number",

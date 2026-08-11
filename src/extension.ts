@@ -114,7 +114,8 @@ export function activate(context: vscode.ExtensionContext): void {
             vscode.window.showInformationMessage("WaniKani: no reviews available right now. 🎉");
             return;
           }
-          StudyPanel.show(context, client, "review", items, getConfig().practiceMode, () => void refresh(false));
+          // Reviews run as a single batch covering the whole queue.
+          StudyPanel.show(context, client, "review", items, getConfig().practiceMode, () => void refresh(false), items.length);
         },
       );
     }),
@@ -131,8 +132,18 @@ export function activate(context: vscode.ExtensionContext): void {
             vscode.window.showInformationMessage("WaniKani: no lessons available right now.");
             return;
           }
-          const batch = sortLessons(all).slice(0, Math.max(1, getConfig().lessonBatchSize));
-          StudyPanel.show(context, client, "lesson", batch, getConfig().practiceMode, () => void refresh(false));
+          const cfg = getConfig();
+          // Order the whole pool once; the panel serves it one batch at a time.
+          const ordered = cfg.lessonOrder === "level" ? sortLessons(all) : shuffle(all);
+          StudyPanel.show(
+            context,
+            client,
+            "lesson",
+            ordered,
+            cfg.practiceMode,
+            () => void refresh(false),
+            Math.max(1, cfg.lessonBatchSize),
+          );
         },
       );
     }),
@@ -165,6 +176,16 @@ function buildItems(assignments: Assignment[], store: SubjectStore): StudyItem[]
 }
 
 const TYPE_ORDER: Record<SubjectType, number> = { radical: 0, kanji: 1, vocabulary: 2, kana_vocabulary: 3 };
+
+/** Fisher–Yates shuffle (non-mutating), for WaniKani's default "shuffled" lesson order. */
+function shuffle<T>(items: T[]): T[] {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
 
 /** Teach lessons in WaniKani's natural order: by level, then radical → kanji → vocab. */
 function sortLessons(items: StudyItem[]): StudyItem[] {

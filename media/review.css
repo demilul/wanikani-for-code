@@ -151,8 +151,10 @@ kbd {
 .missed { list-style: none; padding: 0; text-align: center; }
 .missed li { padding: 4px 0; font-size: 15px; }
 
-.close-btn {
-  margin-top: 28px;
+.close-btn,
+.next-btn {
+  display: block;
+  margin: 28px auto 0;
   padding: 8px 24px;
   font-size: 14px;
   border: none;
@@ -161,4 +163,16 @@ kbd {
   color: var(--vscode-button-foreground);
   background: var(--vscode-button-background);
 }
-.close-btn:hover { background: var(--vscode-button-hoverBackground); }
+.close-btn:hover,
+.next-btn:hover { background: var(--vscode-button-hoverBackground); }
+
+/* When another batch is available, "Done for now" steps back to a secondary look. */
+.close-btn.secondary {
+  margin-top: 10px;
+  color: var(--vscode-button-secondaryForeground, var(--vscode-foreground));
+  background: var(--vscode-button-secondaryBackground, transparent);
+  border: 1px solid var(--vscode-widget-border, rgba(128, 128, 128, 0.4));
+}
+.close-btn.secondary:hover {
+  background: var(--vscode-button-secondaryHoverBackground, rgba(128, 128, 128, 0.15));
+}
