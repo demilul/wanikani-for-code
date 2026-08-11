@@ -2,7 +2,7 @@
   "name": "wanikani-for-code",
   "displayName": "WaniCode",
   "description": "Unofficial WaniKani client for VS Code. Do your reviews and lessons in the editor. Not affiliated with WaniKani or Tofugu.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "publisher": "demilul",
   "license": "Apache-2.0",
   "engines": {

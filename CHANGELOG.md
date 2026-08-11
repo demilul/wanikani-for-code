@@ -2,6 +2,16 @@
 
 All notable changes to WaniCode are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.4.2] - 2026-08-11
+
+### Fixed
+
+- Dashboard "Item spread" column headers no longer truncate to "Radi…" / "Voc…". The fixed column layout added in 0.4.1 was too narrow for the labels; the table now sizes to its content and shows full headers, while the scroll wrapper still keeps it inside its card on narrow panels.
+
+### Docs
+
+- Added light and dark screenshots of the full dashboard panel to the README.
+
 ## [0.4.1] - 2026-08-11
 
 ### Fixed
