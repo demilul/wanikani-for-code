@@ -9,7 +9,7 @@ Do your [WaniKani](https://www.wanikani.com/) reviews and lessons without leavin
 
 Other WaniKani companions stop at showing your review counts. WaniCode runs the actual reviews and lessons in an editor panel: typed answers, live romaji to kana input, WaniKani style answer matching, and real SRS submission.
 
-![Reviewing a kanji next to the WaniKani dashboard in VS Code](https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/hero.png)
+![The WaniCode dashboard in VS Code: reviews, lessons, level progress, item spread, 24 hour forecast, and recent activity](https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/dashboard-panel.png)
 
 <table>
   <tr>
@@ -19,17 +19,6 @@ Other WaniKani companions stop at showing your review counts. WaniCode runs the 
   <tr>
     <td align="center"><em>Romaji to kana input on readings</em></td>
     <td align="center"><em>Instant grading with reinforcement</em></td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/dashboard-panel.png" alt="The full WaniCode dashboard panel in a light theme" /></td>
-    <td width="50%"><img src="https://raw.githubusercontent.com/demilul/wanikani-for-code/main/docs/screenshots/dashboard-panel-dark.png" alt="The full WaniCode dashboard panel in a dark theme" /></td>
-  </tr>
-  <tr>
-    <td align="center"><em>The full dashboard: reviews, lessons, level progress, item spread, 24 hour forecast, and recent activity</em></td>
-    <td align="center"><em>At home in light and dark themes</em></td>
   </tr>
 </table>
 
