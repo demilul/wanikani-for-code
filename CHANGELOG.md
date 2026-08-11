@@ -2,6 +2,12 @@
 
 All notable changes to WaniCode are documented here. This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-08-11
+
+### Changed
+
+- Replace the retired VS Marketplace badges in the README with reliable static badges (shields.io retired the `visual-studio-marketplace` badge family).
+
 ## [0.2.0] - 2026-08-11
 
 Initial public release. The full daily study loop: native reviews and lessons in the editor, submitting to your real WaniKani account.
